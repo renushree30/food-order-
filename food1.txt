@@ -1,0 +1,26 @@
+const menu = [
+    { name: "Burger", price: 5.99 },
+    { name: "Pizza", price: 8.99 },
+    { name: "Pasta", price: 7.49 },
+    { name: "Salad", price: 4.99 },
+    { name: "Soda", price: 1.99 }
+];
+
+let order = [];
+let total = 0;
+
+function displayMenu() {
+    let menuHtml = "<h3>Menu:</h3><ul>";
+    menu.forEach((item, index) => {
+        menuHtml += `<li>${index + 1}. ${item.name} - $${item.price.toFixed(2)}
+                     <button onclick="addToOrder(${index})">Order</button></li>`;
+    });
+    menuHtml += "</ul>";
+    document.getElementById("menu").innerHTML = menuHtml;
+}
+
+function addToOrder(index) {
+    let qty = parseInt(prompt(Enter quantity for ${menu[index].name}:, "1"));
+    if (!qty || qty <= 0) return;
+
+    let existing = order.find(o => o.index
