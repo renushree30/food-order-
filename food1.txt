@@ -1,3 +1,7 @@
+document.addEventListener("DOMContentLoaded", function () {
+    displayMenu();
+});
+
 const menu = [
     { name: "Burger", price: 5.99 },
     { name: "Pizza", price: 8.99 },
@@ -12,7 +16,7 @@ let total = 0;
 function displayMenu() {
     let menuHtml = "<h3>Menu:</h3><ul>";
     menu.forEach((item, index) => {
-        menuHtml += `<li>${index + 1}. ${item.name} - $${item.price.toFixed(2)}
+        menuHtml += `<li>${item.name} - $${item.price.toFixed(2)}
                      <button onclick="addToOrder(${index})">Order</button></li>`;
     });
     menuHtml += "</ul>";
@@ -20,7 +24,42 @@ function displayMenu() {
 }
 
 function addToOrder(index) {
-    let qty = parseInt(prompt(Enter quantity for ${menu[index].name}:, "1"));
+    let qty = parseInt(prompt(`Enter quantity for ${menu[index].name}:`, "1"));
     if (!qty || qty <= 0) return;
 
-    let existing = order.find(o => o.index
+    let existing = order.find(o => o.index === index);
+    if (existing) {
+        existing.qty += qty;
+    } else {
+        order.push({ index, qty });
+    }
+    updateOrder();
+}
+
+function updateOrder() {
+    let orderList = document.getElementById("order-list");
+    let totalPrice = 0;
+    orderList.innerHTML = "";
+
+    order.forEach(item => {
+        let menuItem = menu[item.index];
+        let itemTotal = menuItem.price * item.qty;
+        totalPrice += itemTotal;
+        orderList.innerHTML += `<li>${menuItem.name} x${item.qty} - $${itemTotal.toFixed(2)}</li>`;
+    });
+
+    total = totalPrice;
+    document.getElementById("total").textContent = `Total: $${total.toFixed(2)}`;
+}
+
+function modifyOrder() {
+    alert("Modify Order feature coming soon!");
+}
+
+function placeOrder() {
+    alert("Your order has been placed successfully!");
+}
+
+function orderStatus() {
+    alert("Order Received...\nPreparing...\nIt's Ready!");
+}
